@@ -4,12 +4,12 @@ import java.util.List;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface ApiGitHub {
 
-    @GET("users/JakeWharton/repos?page={page_num}")
+    @GET("users/JakeWharton/repos")
     Single<List<Repo>> getRepos(
-            @Path("page_num") int pageNum);
+            @Query("num") String name);
 }

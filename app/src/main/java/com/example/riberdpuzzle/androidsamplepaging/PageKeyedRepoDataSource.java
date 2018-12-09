@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -21,6 +22,7 @@ public class PageKeyedRepoDataSource extends PageKeyedDataSource<Integer, Repo> 
     public void loadInitial(@NonNull final LoadInitialParams<Integer> params, @NonNull final LoadInitialCallback<Integer, Repo> callback) {
         gitHubRepository.getRepos(1)
                 .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<List<Repo>>() {
                     @Override
                     public void onSuccess(List<Repo> repos) {
@@ -38,6 +40,7 @@ public class PageKeyedRepoDataSource extends PageKeyedDataSource<Integer, Repo> 
     public void loadBefore(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Repo> callback) {
         gitHubRepository.getRepos(params.key)
                 .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<List<Repo>>() {
                     @Override
                     public void onSuccess(List<Repo> repos) {
@@ -55,6 +58,7 @@ public class PageKeyedRepoDataSource extends PageKeyedDataSource<Integer, Repo> 
     public void loadAfter(@NonNull final LoadParams<Integer> params, @NonNull final LoadCallback<Integer, Repo> callback) {
         gitHubRepository.getRepos(params.key)
                 .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<List<Repo>>() {
                     @Override
                     public void onSuccess(List<Repo> repos) {

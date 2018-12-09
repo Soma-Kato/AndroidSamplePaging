@@ -6,6 +6,7 @@ import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiGitHubClient {
@@ -17,12 +18,13 @@ public class ApiGitHubClient {
                 .baseUrl(endPoint)
                 .client(new OkHttpClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
     public Single<List<Repo>> getRepos(final int pageNum) {
         return retrofit
                 .create(ApiGitHub.class)
-                .getRepos(pageNum);
+                .getRepos(String.valueOf(pageNum));
     }
 }
